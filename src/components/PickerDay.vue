@@ -147,14 +147,16 @@ export default {
      */
     nextMonthDays () {
       const d = this.pageDate
+      // First day of next month
       let dObj = this.useUtc
         ? new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 1, 0, 23, 59))
         : new Date(d.getFullYear(), d.getMonth() + 1, 0, d.getHours(), d.getMinutes())
 
       // number of blank days to insert after
-      let numDays = 7 - (this.utils.getDay(dObj) + 1)
+      const dayOfWeek = this.utils.getDay(dObj)
+      let numDays = 7 - (dayOfWeek + 1)
       if (this.mondayFirst) {
-        numDays = this.utils.getDay(dObj) > 0 ? (this.utils.getDay(dObj) + 1) : 0
+        numDays = dayOfWeek > 0 ? (7 - dayOfWeek) : 0
       }
       // return array of days to show after
       let arr = []
