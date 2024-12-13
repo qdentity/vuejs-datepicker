@@ -10,6 +10,14 @@
     </div>
 
     <div class="example">
+      <h3>Display other months days</h3>
+      <datepicker :display-other-month-dates="true" placeholder="Select Date" />
+      <code>
+          &lt;datepicker :display-other-month-dates="true" placeholder="Select Date"&gt;&lt;/datepicker&gt;
+      </code>
+    </div>
+
+    <div class="example">
       <h3>Typeable datepicker</h3>
       <datepicker placeholder="Type or select date" :typeable="true" />
       <code>
