@@ -48,6 +48,8 @@
       :mondayFirst="mondayFirst"
       :dayCellContent="dayCellContent"
       :use-utc="useUtc"
+      :display-other-month-dates="displayOtherMonthDates"
+      :skip-disabled-months="skipDisabledMonths"
       @changedMonth="handleChangedMonthFromDayPicker"
       @selectDate="selectDate"
       @showMonthCalendar="showMonthCalendar"
@@ -108,6 +110,8 @@ export default {
     PickerYear
   },
   props: {
+    displayOtherMonthDates: Boolean,
+    skipDisabledMonths: Boolean,
     value: {
       validator: val => utils.validateDateInput(val)
     },
