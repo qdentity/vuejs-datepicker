@@ -70,6 +70,15 @@ const utils = {
   },
 
   /**
+   * Shifts the month, using UTC or not
+   * @param {Date} date
+   * @param {Number} difference
+   */
+  shiftMonth (date, difference) {
+    return this.setMonth(date, this.getMonth(date) + difference)
+  },
+
+  /**
    * Sets the date, using UTC or not
    * @param {Date} date
    * @param {Number} value

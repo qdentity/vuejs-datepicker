@@ -55,6 +55,10 @@ export default {
       type: Boolean,
       default: false
     },
+    skipDisabledMonths: {
+      type: Boolean,
+      default: false
+    },
     showDayView: Boolean,
     selectedDate: Date,
     pageDate: Date,
@@ -229,20 +233,32 @@ export default {
       this.$emit('showMonthCalendar')
     },
     /**
-     * Change the page month
-     * @param {Number} incrementBy
+     * Skip up to 11 disabled months
+     * @param {Date} date
+     * @param {Number} step
      */
-    changeMonth (incrementBy) {
-      let date = this.pageDate
-      this.utils.setMonth(date, this.utils.getMonth(date) + incrementBy)
-      this.$emit('changedMonth', date)
+    skipMonths (date, step) {
+      // Skip only up to 12 months
+      for (let i = 0; i < 11; i++) {
+        if (this.allDaysInMonthDisabled()) {
+          this.utils.shiftMonth(date, step)
+        } else {
+          break
+        }
+      }
     },
     /**
      * Decrement the page month
      */
     previousMonth () {
       if (!this.isPreviousMonthDisabled()) {
-        this.changeMonth(-1)
+        let date = this.pageDate
+        this.utils.shiftMonth(date, -1)
+
+        if (this.skipDisabledMonths) {
+          this.skipMonths(date, -1)
+        }
+        this.$emit('changedMonth', date)
       }
     },
     /**
@@ -262,7 +278,13 @@ export default {
      */
     nextMonth () {
       if (!this.isNextMonthDisabled()) {
-        this.changeMonth(+1)
+        let date = this.pageDate
+        this.utils.shiftMonth(date, 1)
+
+        if (this.skipDisabledMonths) {
+          this.skipMonths(date, 1)
+        }
+        this.$emit('changedMonth', date)
       }
     },
     /**
@@ -276,6 +298,22 @@ export default {
       let d = this.pageDate
       return this.utils.getMonth(this.disabledDates.from) <= this.utils.getMonth(d) &&
         this.utils.getFullYear(this.disabledDates.from) <= this.utils.getFullYear(d)
+    },
+    allDaysInMonthDisabled () {
+      if (!this.disabledDates) {
+        return false
+      }
+      const d = this.pageDate
+      const year = this.utils.getFullYear(d)
+      const month = this.utils.getMonth(d)
+      const daysInMonth = this.utils.daysInMonth(year, month)
+
+      for (let i = 1; i <= daysInMonth; i++) {
+        const date = new Date(year, month, i)
+        if (!this.isDisabledDate(date)) return false
+      }
+
+      return true
     },
     /**
      * Whether a day is selected

@@ -118,6 +118,28 @@
     </div>
 
     <div class="example">
+        <h3>Skip disabled months:</h3>
+      <div class="settings">
+        <pre>
+          disabledDates: {
+            // disables other month and every day of a month which is a multiple of 3
+            customPredictor (date) {
+              if (date.getMonth() % 2 === 0) {
+                return true
+              }
+              if (date.getDate() % 3 === 0) {
+                return true
+              }
+            }
+          }
+        </pre>
+        <h5>Resulting Date picker</h5>
+        <datepicker :disabledDates="disabledEvenMonthsFn" :skipDisabledMonths="true"></datepicker>
+      </div>
+    </div>
+
+
+    <div class="example">
       <h3>Highlighting Dates Matching Given Function</h3>
       <datepicker :highlighted="highlighted"></datepicker>
       <code>
@@ -278,6 +300,16 @@ export default {
       openDate: null,
       disabledFn: {
         customPredictor (date) {
+          if (date.getDate() % 3 === 0) {
+            return true
+          }
+        }
+      },
+      disabledEvenMonthsFn: {
+        customPredictor (date) {
+          if (date.getMonth() % 2 === 0) {
+            return true
+          }
           if (date.getDate() % 3 === 0) {
             return true
           }
