@@ -1,11 +1,11 @@
 import PickerDay from '@/components/PickerDay.vue'
-import {shallow} from '@vue/test-utils'
+import {shallowMount} from '@vue/test-utils'
 import {en} from '@/locale'
 
 describe('PickerDay: disabled', () => {
   let wrapper
   beforeEach(() => {
-    wrapper = shallow(PickerDay, {
+    wrapper = shallowMount(PickerDay, {
       propsData: {
         allowedToShowView: () => true,
         showMonthCalendar: () => {},
@@ -55,8 +55,8 @@ describe('PickerDay: disabled', () => {
     expect(wrapper.vm.isDisabledDate(new Date(2026, 9, 2))).toEqual(true)
   })
 
-  it('can accept an array of disabled dates', () => {
-    wrapper.setProps({
+  it('can accept an array of disabled dates', async () => {
+    await wrapper.setProps({
       disabledDates: {
         dates: [
           new Date(2016, 9, 2),
@@ -69,8 +69,8 @@ describe('PickerDay: disabled', () => {
     expect(wrapper.vm.isDisabledDate(new Date(2016, 9, 3))).toEqual(false)
   })
 
-  it('can accept an array of disabled days of the week', () => {
-    wrapper.setProps({
+  it('can accept an array of disabled days of the week', async () => {
+    await wrapper.setProps({
       disabledDates: {
         days: [6, 0]
       }
@@ -91,8 +91,8 @@ describe('PickerDay: disabled', () => {
     expect(wrapper.vm.isDisabledDate(new Date(2016, 9, 11))).toEqual(false)
   })
 
-  it('can accept a customPredictor to check if the date is disabled', () => {
-    wrapper.setProps({
+  it('can accept a customPredictor to check if the date is disabled', async () => {
+    await wrapper.setProps({
       disabledDates: {
         customPredictor (date) {
           if (date.getDate() % 4 === 0) {

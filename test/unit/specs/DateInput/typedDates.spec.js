@@ -1,12 +1,12 @@
 import DateInput from '@/components/DateInput.vue'
-import {shallow} from '@vue/test-utils'
+import {shallowMount} from '@vue/test-utils'
 import {en} from '@/locale'
 
 describe('DateInput', () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = shallow(DateInput, {
+    wrapper = shallowMount(DateInput, {
       propsData: {
         format: 'dd MMM yyyy',
         translation: en,
@@ -15,14 +15,14 @@ describe('DateInput', () => {
     })
   })
 
-  it('does not format the date when typed', () => {
+  it('does not format the date when typed', async () => {
     const dateString = '2018-04-24'
     wrapper.vm.input.value = dateString
     expect(wrapper.vm.input.value).toEqual(dateString)
     wrapper.setData({
       typedDate: dateString
     })
-    wrapper.setProps({
+    await wrapper.setProps({
       selectedDate: new Date(dateString)
     })
     expect(wrapper.vm.typedDate).toEqual(dateString)
@@ -52,7 +52,7 @@ describe('DateInput', () => {
   })
 
   it('doesn\'t emit the date if typeable=false', () => {
-    const wrapper = shallow(DateInput, {
+    const wrapper = shallowMount(DateInput, {
       propsData: {
         format: 'dd MMM yyyy',
         translation: en,
