@@ -258,7 +258,7 @@ export default {
      */
     previousMonth () {
       if (!this.isPreviousMonthDisabled()) {
-        let date = this.pageDate
+        let date = new Date(this.pageDate)
         this.utils.shiftMonth(date, -1)
 
         if (this.skipDisabledMonths) {
@@ -284,7 +284,7 @@ export default {
      */
     nextMonth () {
       if (!this.isNextMonthDisabled()) {
-        let date = this.pageDate
+        let date = new Date(this.pageDate)
         this.utils.shiftMonth(date, 1)
 
         if (this.skipDisabledMonths) {

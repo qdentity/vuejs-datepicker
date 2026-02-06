@@ -36,7 +36,6 @@
     "lint",
     "test"
   ],
-  "dependencies": {},
   "peerDependencies": {
     "vue": "^2.6.10"
   },
@@ -87,7 +86,7 @@
     "shelljs": "^0.8.3",
     "stylus": "^0.54.5",
     "vue": "^2.6.10",
-    "vue-jest": "^4.0.0-beta.2",
+    "vue-jest": "^3.0.7",
     "vue-server-renderer": "^2.6.10",
     "vue-template-compiler": "^2.6.10"
   }
