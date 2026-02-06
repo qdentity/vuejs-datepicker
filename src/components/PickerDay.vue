@@ -16,11 +16,11 @@
       <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
       <template v-if="prevMonthDays.length > 0">
         <template v-if="displayOtherMonthDates">
-          <span 
+          <span
             class="cell day other-month"
-            v-for="day in prevMonthDays" 
+            v-for="day in prevMonthDays"
             :class="dayClasses(day)"
-            :key="day.timestamp" 
+            :key="day.timestamp"
             v-html="dayCellContent(day)"
             @click="selectDate(day)"></span>
         </template>
@@ -28,7 +28,7 @@
           <span class="cell day blank" v-for="d in prevMonthDays" :key="d.timestamp"></span>
         </template>
       </template><!--
-      --><span 
+      --><span
           class="cell day"
           v-for="day in days"
           :key="day.timestamp"
@@ -36,11 +36,11 @@
           v-html="dayCellContent(day)"
           @click="selectDate(day)"></span><!--
       --><template v-if="displayOtherMonthDates && nextMonthDays.length > 0">
-        <span 
+        <span
           class="cell day other-month"
-          v-for="day in nextMonthDays" 
+          v-for="day in nextMonthDays"
           :class="dayClasses(day)"
-          :key="day.timestamp" 
+          :key="day.timestamp"
           v-html="dayCellContent(day)"
           @click="selectDate(day)"></span>
       </template>
@@ -115,14 +115,18 @@ export default {
         numDays = this.utils.getDay(dObj) > 0 ? this.utils.getDay(dObj) - 1 : 6
       }
       // get last day of previous month
-      let prevDateObj = new Date(d.getFullYear(), d.getMonth(), 0, d.getHours(), d.getMinutes())
-      let lastDay = prevDateObj.getDate()
+      let prevDateObj = this.useUtc
+        ? new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 0))
+        : new Date(d.getFullYear(), d.getMonth(), 0, d.getHours(), d.getMinutes())
+      let lastDay = this.utils.getDate(prevDateObj)
       // first day of previous month to show
       let start = lastDay - numDays + 1
       // add remaining days of previous month
       let arr = []
       for (var i = 0; i < numDays; i++) {
-        let pdObj = new Date(prevDateObj.getFullYear(), prevDateObj.getMonth(), start + i, prevDateObj.getHours(), prevDateObj.getMinutes())
+        let pdObj = this.useUtc
+          ? new Date(Date.UTC(this.utils.getFullYear(prevDateObj), this.utils.getMonth(prevDateObj), start + i))
+          : new Date(prevDateObj.getFullYear(), prevDateObj.getMonth(), start + i, prevDateObj.getHours(), prevDateObj.getMinutes())
         arr.push(this.dayObject(pdObj))
       }
       return arr
@@ -165,7 +169,9 @@ export default {
       // return array of days to show after
       let arr = []
       for (var i = 1; i <= numDays; i++) {
-        let pdObj = new Date(dObj.getFullYear(), dObj.getMonth() + 1, i, dObj.getHours(), dObj.getMinutes())
+        let pdObj = this.useUtc
+          ? new Date(Date.UTC(this.utils.getFullYear(dObj), this.utils.getMonth(dObj) + 1, i))
+          : new Date(dObj.getFullYear(), dObj.getMonth() + 1, i, dObj.getHours(), dObj.getMinutes())
         arr.push(this.dayObject(pdObj))
       }
       return arr

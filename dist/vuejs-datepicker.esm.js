@@ -799,15 +799,15 @@ var script$1 = {
       } // get last day of previous month
 
 
-      var prevDateObj = new Date(d.getFullYear(), d.getMonth(), 0, d.getHours(), d.getMinutes());
-      var lastDay = prevDateObj.getDate(); // first day of previous month to show
+      var prevDateObj = this.useUtc ? new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 0)) : new Date(d.getFullYear(), d.getMonth(), 0, d.getHours(), d.getMinutes());
+      var lastDay = this.utils.getDate(prevDateObj); // first day of previous month to show
 
       var start = lastDay - numDays + 1; // add remaining days of previous month
 
       var arr = [];
 
       for (var i = 0; i < numDays; i++) {
-        var pdObj = new Date(prevDateObj.getFullYear(), prevDateObj.getMonth(), start + i, prevDateObj.getHours(), prevDateObj.getMinutes());
+        var pdObj = this.useUtc ? new Date(Date.UTC(this.utils.getFullYear(prevDateObj), this.utils.getMonth(prevDateObj), start + i)) : new Date(prevDateObj.getFullYear(), prevDateObj.getMonth(), start + i, prevDateObj.getHours(), prevDateObj.getMinutes());
         arr.push(this.dayObject(pdObj));
       }
 
@@ -853,7 +853,7 @@ var script$1 = {
       var arr = [];
 
       for (var i = 1; i <= numDays; i++) {
-        var pdObj = new Date(dObj.getFullYear(), dObj.getMonth() + 1, i, dObj.getHours(), dObj.getMinutes());
+        var pdObj = this.useUtc ? new Date(Date.UTC(this.utils.getFullYear(dObj), this.utils.getMonth(dObj) + 1, i)) : new Date(dObj.getFullYear(), dObj.getMonth() + 1, i, dObj.getHours(), dObj.getMinutes());
         arr.push(this.dayObject(pdObj));
       }
 
