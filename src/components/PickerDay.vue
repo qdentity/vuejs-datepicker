@@ -246,7 +246,7 @@ export default {
     skipMonths (date, step) {
       // Skip only up to 12 months
       for (let i = 0; i < 11; i++) {
-        if (this.allDaysInMonthDisabled()) {
+        if (this.allDaysInMonthDisabled(date)) {
           this.utils.shiftMonth(date, step)
         } else {
           break
@@ -305,11 +305,10 @@ export default {
       return this.utils.getMonth(this.disabledDates.from) <= this.utils.getMonth(d) &&
         this.utils.getFullYear(this.disabledDates.from) <= this.utils.getFullYear(d)
     },
-    allDaysInMonthDisabled () {
+    allDaysInMonthDisabled (d) {
       if (!this.disabledDates) {
         return false
       }
-      const d = this.pageDate
       const year = this.utils.getFullYear(d)
       const month = this.utils.getMonth(d)
       const daysInMonth = this.utils.daysInMonth(year, month)
